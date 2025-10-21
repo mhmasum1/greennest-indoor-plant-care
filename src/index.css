@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-swiper .swiper-button-next:hover,
+.hero-swiper .swiper-button-prev:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.hero-swiper .swiper-button-next:after,
+.hero-swiper .swiper-button-prev:after {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    opacity: 0.6;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+    background-color: white;
+    opacity: 1;
+    width: 25px;
+    border-radius: 5px;
+}
