@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "title": "Smart Watering",
+        "icon": "💧",
+        "description": "Water deeply but less often. Let the top inch of soil dry before watering again — consistency keeps roots strong and healthy."
+    },
+    {
+        "id": 2,
+        "title": "Perfect Light Balance",
+        "icon": "🌞",
+        "description": "Most houseplants love bright, indirect sunlight. Avoid harsh midday rays to prevent leaf burn and fading colors."
+    },
+    {
+        "id": 3,
+        "title": "Feed for Growth",
+        "icon": "🌿",
+        "description": "Use organic or liquid fertilizer every 3–4 weeks during the growing season. Skip feeding in winter when growth slows down."
+    },
+    {
+        "id": 4,
+        "title": "Shape & Prune",
+        "icon": "✂️",
+        "description": "Trim dead or leggy stems regularly. Pruning encourages fuller growth and helps your plant maintain its natural shape."
+    },
+    {
+        "id": 5,
+        "title": "Happy Repotting",
+        "icon": "🪴",
+        "description": "Repot once a year into a slightly larger pot with fresh soil. This gives your plant room to grow and breathe."
+    }
+]

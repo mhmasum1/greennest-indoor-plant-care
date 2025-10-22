@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Hero from "../components/Hero";
 import TopRatedPlants from "../components/TopRatedPlants";
+import PlantCareTips from "../components/PlantsCareTips";
 
 const Home = () => {
     return (
@@ -16,6 +17,7 @@ const Home = () => {
             >
                 <TopRatedPlants />
             </Suspense>
+            <PlantCareTips />
         </div>
     );
 };
