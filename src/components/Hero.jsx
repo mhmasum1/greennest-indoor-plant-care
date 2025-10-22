@@ -29,11 +29,9 @@ const Hero = () => {
                             Welcome to GreenHome 🌿
                         </h1>
                         <p className="text-lg md:text-xl text-white mb-6">
-                            Find your perfect indoor plant
+                            "Water with love, grow with care!" | "Sunlight and patience, your plant’s best friends." | "Nurture nature, one leaf at a time."
                         </p>
-                        <button className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition">
-                            Shop Now
-                        </button>
+
                     </div>
                 </div>
             </SwiperSlide>
@@ -48,14 +46,12 @@ const Hero = () => {
                 >
                     <div className="text-center px-4">
                         <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">
-                            Easy Care Plants 🪴
+                            Easy Care Plants 🔆
                         </h1>
                         <p className="text-lg md:text-xl text-white mb-6">
-                            Perfect for beginners
+                            "Sprinkle kindness, watch plants thrive!" | "Green today, thriving tomorrow!"
                         </p>
-                        <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
-                            View Plants
-                        </button>
+
                     </div>
                 </div>
             </SwiperSlide>
@@ -73,11 +69,8 @@ const Hero = () => {
                             Fresh & Healthy 💚
                         </h1>
                         <p className="text-lg md:text-xl text-white mb-6">
-                            Air purifying plants
+                            "Tend with heart, bloom with joy!" | "Let your plants shine with care!"
                         </p>
-                        <button className="bg-yellow-600 text-white px-8 py-3 rounded-lg hover:bg-yellow-700 transition">
-                            Explore
-                        </button>
                     </div>
                 </div>
             </SwiperSlide>

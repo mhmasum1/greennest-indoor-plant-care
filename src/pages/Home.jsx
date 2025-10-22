@@ -1,13 +1,21 @@
-import React from 'react';
-import Hero from '../components/Hero';
-import TopRatedPlants from '../components/TopRatedPlants';
+import React, { Suspense } from "react";
+import Hero from "../components/Hero";
+import TopRatedPlants from "../components/TopRatedPlants";
 
 const Home = () => {
     return (
         <div>
-            <h2> This is Home Page !</h2>
-            <Hero></Hero>
-            <TopRatedPlants></TopRatedPlants>
+            <Hero />
+
+            <Suspense
+                fallback={
+                    <div className="flex justify-center py-10">
+                        <span className="loading loading-dots loading-lg"></span>
+                    </div>
+                }
+            >
+                <TopRatedPlants />
+            </Suspense>
         </div>
     );
 };
