@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Alice Green",
+        "specialization": "Indoor Plants & Succulents",
+        "image": "https://randomuser.me/api/portraits/women/44.jpg"
+    },
+    {
+        "id": 2,
+        "name": "John Leaf",
+        "specialization": "Air-Purifying Plants",
+        "image": "https://randomuser.me/api/portraits/men/46.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Maria Fern",
+        "specialization": "Tropical & Decorative Plants",
+        "image": "https://randomuser.me/api/portraits/women/48.jpg"
+    },
+    {
+        "id": 4,
+        "name": "David Sprout",
+        "specialization": "Plant Nutrition & Fertilizers",
+        "image": "https://randomuser.me/api/portraits/men/50.jpg"
+    }
+]
