@@ -1,52 +1,86 @@
+// src/pages/Signup.jsx
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../firebase/firebase.config";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 
-const Signup = () => {
-    const [error, setError] = useState("");
+export default function Signup() {
+    const { signup, googleLogin } = useAuth() || {};
     const navigate = useNavigate();
 
-    const handleSignup = (e) => {
-        e.preventDefault();
-        const name = e.target.name.value;
-        const email = e.target.email.value;
-        const photo = e.target.photo.value;
-        const password = e.target.password.value;
+    const [form, setForm] = useState({ name: "", email: "", photoURL: "", password: "" });
+    const [showPass, setShowPass] = useState(false);
+    const [errors, setErrors] = useState({});
 
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-        if (!passwordRegex.test(password)) {
-            setError("Password must contain at least 1 uppercase, 1 lowercase, and be 6+ chars long");
+    const validate = (password) => {
+        const err = {};
+        if (password.length < 6) err.length = "Password must be at least 6 characters";
+        if (!/[A-Z]/.test(password)) err.upper = "Must include an uppercase letter";
+        if (!/[a-z]/.test(password)) err.lower = "Must include a lowercase letter";
+        return err;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const name = form.name.trim();
+        const photoURL = form.photoURL.trim();
+        const email = form.email.trim().toLowerCase();
+        const password = form.password;
+
+        const v = validate(password);
+        setErrors(v);
+        if (Object.keys(v).length) return;
+
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(email)) {
+            toast.error("Please enter a valid email address.");
             return;
         }
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((result) => {
-                updateProfile(result.user, { displayName: name, photoURL: photo });
-                toast.success("Signup successful!");
-                navigate("/");
-            })
-            .catch(() => toast.error("Signup failed"));
+        if (!signup) { toast.error("Auth not ready"); return; }
+
+        try {
+            await signup(email, password, name, photoURL);
+            toast.success("Signup successful");
+            navigate("/", { replace: true });
+        } catch (err) {
+            console.error("Signup error:", err);
+            toast.error(err?.code || err?.message || "Signup failed");
+        }
+    };
+
+    const handleGoogle = async () => {
+        if (!googleLogin) { toast.error("Google auth not ready"); return; }
+        try {
+            await googleLogin();
+            toast.success("Signed in with Google");
+            navigate("/", { replace: true });
+        } catch (err) {
+            toast.error("Google sign-in failed", err);
+        }
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-5 border rounded shadow">
+        <div className="max-w-md mx-auto mt-10 p-6 border rounded">
             <Toaster />
-            <h2 className="text-2xl font-bold mb-4 text-center">Signup</h2>
-            <form onSubmit={handleSignup}>
-                <input name="name" type="text" placeholder="Full Name" className="input input-bordered w-full mb-3" required />
-                <input name="email" type="email" placeholder="Email" className="input input-bordered w-full mb-3" required />
-                <input name="photo" type="text" placeholder="Photo URL" className="input input-bordered w-full mb-3" />
-                <input name="password" type="password" placeholder="Password" className="input input-bordered w-full mb-3" required />
-                {error && <p className="text-red-500 mb-2">{error}</p>}
+            <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+            <form onSubmit={handleSubmit} className="space-y-3">
+                <input name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Full name" className="input input-bordered w-full" required />
+                <input name="photoURL" value={form.photoURL} onChange={(e) => setForm({ ...form, photoURL: e.target.value })} placeholder="Photo URL (optional)" className="input input-bordered w-full" />
+                <input name="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email" className="input input-bordered w-full" required />
+                <div className="relative">
+                    <input name="password" type={showPass ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Password" className="input input-bordered w-full" required />
+                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-2 top-2 text-sm">{showPass ? "Hide" : "Show"}</button>
+                </div>
+                <div className="text-sm text-red-600">
+                    {errors.length && <div>{errors.length}</div>}
+                    {errors.upper && <div>{errors.upper}</div>}
+                    {errors.lower && <div>{errors.lower}</div>}
+                </div>
                 <button className="btn btn-success w-full">Register</button>
             </form>
-            <p className="mt-3 text-center">
-                Already have an account? <Link to="/login" className="text-green-600">Login</Link>
-            </p>
+            <div className="divider">OR</div>
+            <button onClick={handleGoogle} className="btn btn-outline w-full">Continue with Google</button>
         </div>
     );
-};
-
-export default Signup;
+}

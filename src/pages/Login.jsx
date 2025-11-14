@@ -1,37 +1,42 @@
-import React, { useContext, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebase.config";
-import { AuthContext } from "../providers/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+// src/pages/Login.jsx
+import React, { useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
     const [error, setError] = useState("");
-    const { googleLogin } = useContext(AuthContext);
+    const { login, googleLogin } = useAuth() || {};
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        const email = e.target.email.value;
+        const email = e.target.email.value.trim().toLowerCase();
         const password = e.target.password.value;
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                toast.success("Login successful!");
-                navigate(from, { replace: true });
-            })
-            .catch(() => toast.error("Invalid email or password"));
+        if (!login) { toast.error("Auth not ready"); return; }
+        try {
+            await login(email, password);
+            toast.success("Login successful!");
+            navigate(from, { replace: true });
+        } catch (err) {
+            console.error("Login error:", err);
+            setError(err?.code || err?.message || "Login failed");
+            toast.error(err?.code || "Login failed");
+        }
     };
 
-    const handleGoogle = () => {
-        googleLogin()
-            .then(() => {
-                toast.success("Logged in with Google!");
-                navigate(from, { replace: true });
-            })
-            .catch(() => toast.error("Google login failed"));
+    const handleGoogle = async () => {
+        if (!googleLogin) { toast.error("Google auth not ready"); return; }
+        try {
+            await googleLogin();
+            toast.success("Logged in with Google!");
+            navigate(from, { replace: true });
+        } catch (err) {
+            console.error("Google login error:", err);
+            toast.error(err?.message || "Google login failed");
+        }
     };
 
     return (

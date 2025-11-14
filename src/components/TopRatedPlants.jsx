@@ -1,10 +1,19 @@
-import React, { use } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const displayCardsPromise = fetch("/plants.json").then(res => res.json());
-
 const TopRatedPlants = () => {
-    const cards = use(displayCardsPromise);
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/plants.json")
+            .then((res) => res.json())
+            .then((data) => setCards(data))
+            .catch((err) => console.error("plants.json fetch error:", err))
+            .finally(() => setLoading(false));
+    }, []);
+
+    if (loading) return <div className="p-6 text-center">Loading plants...</div>;
 
     return (
         <div className="px-10 py-6">
@@ -28,8 +37,6 @@ const TopRatedPlants = () => {
                         <p className="text-green-600 font-bold">${plant.price}</p>
                         <div className="flex justify-between items-center mt-2">
                             <p className="text-yellow-500">⭐ {plant.rating}</p>
-
-                            {/* ✅ Dynamic route link */}
                             <Link
                                 to={`/plants/${plant.plantId}`}
                                 className="btn btn-sm btn-primary"
