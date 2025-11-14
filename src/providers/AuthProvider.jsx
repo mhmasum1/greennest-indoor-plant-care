@@ -30,14 +30,20 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    // signup (email/password) + optional name/photo
     const signup = async (email, password, name = "", photoURL = "") => {
         setLoading(true);
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             if (name || photoURL) {
                 await fbUpdateProfile(res.user, { displayName: name, photoURL: photoURL });
-                try { await res.user.reload(); } catch (_) { }
+
+                try {
+                    await res.user.reload();
+                } catch (error) {
+
+                    console.error("Failed to reload user profile:", error);
+                }
+
                 setUser(auth.currentUser);
             }
             return res;
@@ -58,7 +64,7 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         try {
             const res = await signInWithPopup(auth, googleProvider);
-            try { await res.user.reload(); } catch (_) { }
+
             setUser(auth.currentUser);
             return res;
         } finally {
