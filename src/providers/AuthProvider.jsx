@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // watch auth state
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    // signup (email/password) + optional name/photo
+
     const signup = async (email, password, name = "", photoURL = "") => {
         setLoading(true);
         try {
@@ -67,8 +67,8 @@ const AuthProvider = ({ children }) => {
             try {
                 // ensure local user has fresh info
                 await res.user.reload?.();
-            } catch (e) {
-                /* ignore reload errors */
+            } catch (error) {
+                console.log(error)
             }
             setUser(auth.currentUser);
             return res;

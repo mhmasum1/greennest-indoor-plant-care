@@ -1,11 +1,10 @@
-// src/pages/Signup.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Signup() {
-    const { signup, googleLogin } = useAuth() || {};
+    const { signup } = useAuth() || {};
     const navigate = useNavigate();
 
     const [form, setForm] = useState({ name: "", email: "", photoURL: "", password: "" });
@@ -49,17 +48,6 @@ export default function Signup() {
         }
     };
 
-    const handleGoogle = async () => {
-        if (!googleLogin) { toast.error("Google auth not ready"); return; }
-        try {
-            await googleLogin();
-            toast.success("Signed in with Google");
-            navigate("/", { replace: true });
-        } catch (err) {
-            toast.error("Google sign-in failed", err);
-        }
-    };
-
     return (
         <div className="max-w-md mx-auto mt-10 p-6 border rounded">
             <Toaster />
@@ -79,8 +67,6 @@ export default function Signup() {
                 </div>
                 <button className="btn btn-success w-full">Register</button>
             </form>
-            <div className="divider">OR</div>
-            <button onClick={handleGoogle} className="btn btn-outline w-full">Continue with Google</button>
         </div>
     );
 }
