@@ -35,7 +35,6 @@ const Header = () => {
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="btn btn-ghost">{displayName}</label>
                             <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><NavLink to="/myprofile">Profile</NavLink></li>
                                 <li><button onClick={handleLogout} className="text-red-600">Logout</button></li>
                             </ul>
                         </div>
@@ -43,7 +42,7 @@ const Header = () => {
                 ) : (
                     <div className="flex gap-2">
                         <NavLink to="/login" className="btn btn-ghost">Login</NavLink>
-                        <NavLink to="/signup" className="btn btn-primary">Sign up</NavLink>
+                        <NavLink to="/signup" className="btn btn-primary">Register</NavLink>
                     </div>
                 )}
             </div>

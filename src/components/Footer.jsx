@@ -46,7 +46,7 @@ const Footer = () => {
                 </div>
             </nav>
             <aside>
-                <p>Copyright © {new Date().getFullYear()} - All right reserved by GreenNest Industries Ltd</p>
+                <p> "© {new Date().getFullYear()}GreenNest. All right reserved."</p>
             </aside>
         </footer>
     );

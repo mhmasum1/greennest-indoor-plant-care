@@ -39,24 +39,26 @@ const Hero = () => {
         >
             {slides.map((s) => (
                 <SwiperSlide key={s.id}>
-                    <div className="w-full h-96 md:h-[500px] relative overflow-hidden">
-
+                    <div className="w-full h-full relative overflow-hidden"> {/* Changed height to h-full */}
+                        {/* Image Section */}
                         <img
                             src={s.img}
                             alt={s.title}
-                            className="absolute inset-0 w-full h-full object-cover md:object-contain object-center"
+                            // object-cover ensures the image fills the container, cropping if aspect ratios differ.
+                            // object-center tries to keep the center of the image visible.
+                            className="absolute inset-0 w-full h-full object-cover object-center"
                         />
 
+                        {/* Overlay Section */}
+                        <div className="absolute inset-0 bg-black/50"></div> {/* Slightly darker overlay for better text contrast */}
 
-                        <div className="absolute inset-0 bg-black/45"></div>
-
-
+                        {/* Text Content */}
                         <div className="relative z-10 flex items-center justify-center h-full px-4">
                             <div className="text-center max-w-3xl">
-                                <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">
+                                <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-3 drop-shadow-lg"> {/* Added drop-shadow-lg for better visibility */}
                                     {s.title}
                                 </h1>
-                                <p className="text-sm md:text-lg text-white/90">
+                                <p className="text-sm md:text-lg text-white drop-shadow-md"> {/* Changed to full white and added drop-shadow-md */}
                                     {s.subtitle}
                                 </p>
                             </div>

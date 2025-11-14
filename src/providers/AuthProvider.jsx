@@ -1,3 +1,4 @@
+// src/providers/AuthProvider.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
 import {
@@ -9,7 +10,9 @@ import {
     signOut,
     updateProfile as fbUpdateProfile,
     onAuthStateChanged,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    verifyPasswordResetCode,
+    confirmPasswordReset
 } from "firebase/auth";
 
 export const AuthContext = createContext(null);
@@ -30,20 +33,18 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
+    // signup (email/password) + optional name/photo
     const signup = async (email, password, name = "", photoURL = "") => {
         setLoading(true);
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             if (name || photoURL) {
                 await fbUpdateProfile(res.user, { displayName: name, photoURL: photoURL });
-
                 try {
                     await res.user.reload();
                 } catch (error) {
-
                     console.error("Failed to reload user profile:", error);
                 }
-
                 setUser(auth.currentUser);
             }
             return res;
@@ -55,8 +56,7 @@ const AuthProvider = ({ children }) => {
     // login (email/password)
     const login = (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password)
-            .finally(() => setLoading(false));
+        return signInWithEmailAndPassword(auth, email, password).finally(() => setLoading(false));
     };
 
     // google login
@@ -64,7 +64,12 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         try {
             const res = await signInWithPopup(auth, googleProvider);
-
+            try {
+                // ensure local user has fresh info
+                await res.user.reload?.();
+            } catch (e) {
+                /* ignore reload errors */
+            }
             setUser(auth.currentUser);
             return res;
         } finally {
@@ -85,15 +90,29 @@ const AuthProvider = ({ children }) => {
     const updateUser = (profile) => {
         if (!auth.currentUser) return Promise.reject(new Error("No user"));
         setLoading(true);
-        return fbUpdateProfile(auth.currentUser, profile)
-            .finally(() => setLoading(false));
+        return fbUpdateProfile(auth.currentUser, profile).finally(() => setLoading(false));
     };
 
-    // reset password
-    const resetPassword = (email) => {
+    // reset password: optionally accept actionCodeSettings
+    // actionCodeSettings example: { url: window.location.origin + '/reset-password', handleCodeInApp: true }
+    const resetPassword = (email, actionCodeSettings = null) => {
         setLoading(true);
-        return sendPasswordResetEmail(auth, email)
-            .finally(() => setLoading(false));
+        const call = actionCodeSettings
+            ? sendPasswordResetEmail(auth, email, actionCodeSettings)
+            : sendPasswordResetEmail(auth, email);
+        return call.finally(() => setLoading(false));
+    };
+
+    // verify the oobCode (returns email if valid)
+    const verifyResetCode = (oobCode) => {
+        setLoading(true);
+        return verifyPasswordResetCode(auth, oobCode).finally(() => setLoading(false));
+    };
+
+    // confirm new password with oobCode
+    const confirmReset = (oobCode, newPassword) => {
+        setLoading(true);
+        return confirmPasswordReset(auth, oobCode, newPassword).finally(() => setLoading(false));
     };
 
     const value = {
@@ -105,6 +124,8 @@ const AuthProvider = ({ children }) => {
         logout,
         updateUser,
         resetPassword,
+        verifyResetCode,
+        confirmReset,
         setUser
     };
 
