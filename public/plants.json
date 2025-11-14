@@ -32,7 +32,7 @@
         "availableStock": 25,
         "careLevel": "Easy",
         "description": "Trailing vine that grows well in low light and cleans the air.",
-        "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400",
+        "image": "https://images.unsplash.com/photo-1572688484438-313a6e50c333?w=400",
         "providerName": "GreenThumb Gardens"
     },
     {
@@ -44,7 +44,7 @@
         "availableStock": 15,
         "careLevel": "Easy",
         "description": "Beautiful white flowers and excellent at removing toxins from the air.",
-        "image": "https://images.unsplash.com/photo-1593482892290-f54927ae1bb6?w=400",
+        "image": "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400",
         "providerName": "BloomBotanics"
     },
     {
@@ -56,7 +56,7 @@
         "availableStock": 6,
         "careLevel": "Hard",
         "description": "Statement plant with large, violin-shaped leaves perfect for living rooms.",
-        "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400",
+        "image": "https://images.unsplash.com/photo-1509937528035-ad76254b0356?w=300",
         "providerName": "FigTree Nursery"
     },
     {
@@ -68,7 +68,7 @@
         "availableStock": 20,
         "careLevel": "Easy",
         "description": "Safe for pets, easy to grow, and produces baby plantlets.",
-        "image": "https://images.unsplash.com/photo-1593482892290-f54927ae1bb6?w=400",
+        "image": "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=400",
         "providerName": "PetSafe Plants"
     }
 ]

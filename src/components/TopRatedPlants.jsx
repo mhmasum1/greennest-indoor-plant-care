@@ -25,21 +25,42 @@ const TopRatedPlants = () => {
                 {cards.map((plant) => (
                     <div
                         key={plant.plantId}
-                        className="border rounded-2xl shadow hover:shadow-lg transition p-4"
+                        className="border rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 bg-white p-4"
                     >
-                        <img
-                            src={plant.image}
-                            alt={plant.plantName}
-                            className="w-full h-40 object-cover rounded-xl mb-3"
-                        />
-                        <h3 className="font-semibold text-lg">{plant.plantName}</h3>
-                        <p className="text-gray-600 text-sm">{plant.category}</p>
-                        <p className="text-green-600 font-bold">${plant.price}</p>
-                        <div className="flex justify-between items-center mt-2">
-                            <p className="text-yellow-500">⭐ {plant.rating}</p>
+                        {/* Image Container - Fixed Height with Object Cover */}
+                        <div className="w-full h-56 overflow-hidden bg-gray-100 rounded-xl">
+                            <img
+                                src={plant.image}
+                                alt={plant.plantName}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            />
+                        </div>
+
+                        {/* Content Section */}
+                        <div className="pt-4 text-center">
+                            <h3 className="font-semibold text-lg text-gray-800 mb-2">
+                                {plant.plantName}
+                            </h3>
+
+                            <p className="text-gray-500 text-sm mb-3">
+                                {plant.category}
+                            </p>
+
+                            <div className="flex items-center justify-between mb-3">
+                                <p className="text-green-600 font-bold text-xl">
+                                    ${plant.price}
+                                </p>
+                                <div className="flex items-center gap-1">
+                                    <span className="text-yellow-500">⭐</span>
+                                    <span className="font-medium text-gray-700">
+                                        {plant.rating}
+                                    </span>
+                                </div>
+                            </div>
+
                             <Link
                                 to={`/plants/${plant.plantId}`}
-                                className="btn btn-sm btn-primary"
+                                className="btn btn-primary btn-sm w-full"
                             >
                                 View Details
                             </Link>
