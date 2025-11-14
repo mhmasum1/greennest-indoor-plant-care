@@ -1,12 +1,18 @@
-// src/components/Header.jsx
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider'; // <- single source
 
 const Header = () => {
     const { user, logout } = useAuth() || {};
+    const [plants, setPlants] = useState([]);
+    const navigate = useNavigate();
 
-    console.log("Header — user from context:", user);
+    // Fetch plants data
+    useEffect(() => {
+        fetch('/plants.json')
+            .then((res) => res.json())
+            .then((data) => setPlants(data));
+    }, []);
 
     const handleLogout = async () => {
         if (!logout) return;
@@ -16,14 +22,25 @@ const Header = () => {
     const displayName = user?.displayName || user?.email?.split('@')[0] || "Guest";
     const avatar = user?.photoURL || "https://via.placeholder.com/40";
 
+    // Navigate to Cart page
+    const handleGoToCart = () => {
+        navigate('/cart');
+    };
+
     return (
         <div className="navbar bg-base-100 shadow-sm">
-            <div className="navbar-start"><a className="btn btn-ghost text-xl">GreenNest</a></div>
+            <div className="navbar-start">
+                <a className="btn btn-ghost text-xl">GreenNest</a>
+            </div>
 
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li><NavLink to='/'>Home</NavLink></li>
-                    <li><NavLink to='/plants'>Plants</NavLink></li>
+                    <li>
+                        <button onClick={handleGoToCart}>
+                            Plants
+                        </button>
+                    </li>
                     <li><NavLink to='/myprofile'>My Profile</NavLink></li>
                 </ul>
             </div>

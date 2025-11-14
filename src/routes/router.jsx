@@ -7,6 +7,7 @@ import PlantDetails from "../components/PlantDetails";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import Cart from "../pages/Cart";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,8 @@ const router = createBrowserRouter([
             { path: "signup", element: <Signup /> },
             { path: "forgot-password", element: <ForgotPassword /> },
             { path: "reset-password", element: <ResetPassword /> },
+            { path: "cart", element: <Cart />, },
+
         ],
     },
 ]);

@@ -21,7 +21,7 @@ const PlantDetails = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         toast.success("Consultation booked successfully!");
-        setFormData({ name: "", email: "" }); // Clear form fields
+        setFormData({ name: "", email: "" });
     };
 
     return (
