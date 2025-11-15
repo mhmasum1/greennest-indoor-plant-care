@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import TopRatedPlants from "../components/TopRatedPlants";
 import PlantCareTips from "../components/PlantsCareTips";
 import GreenExparts from "../components/GreenExparts";
+import PlantOfTheWeek from "../components/PlantOfTheWeek";
 
 const Home = () => {
     return (
@@ -18,6 +19,7 @@ const Home = () => {
             >
                 <TopRatedPlants />
             </Suspense>
+            <PlantOfTheWeek />
             <PlantCareTips />
             <GreenExparts />
         </div>
