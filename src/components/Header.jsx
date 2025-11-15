@@ -2,35 +2,34 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 
-const Header = () => {
+const Header = ({ setNavLoading }) => {
     const { user, logout } = useAuth() || {};
 
     const handleLogout = async () => {
         if (!logout) return;
         try {
             await logout();
-        } catch (error) {
-            console.error("Logout error:", error);
+        } catch (e) {
+            console.error(e);
         }
     };
 
-    const displayName =
-        user?.displayName ||
-        user?.email?.split("@")[0] ||
-        "Guest";
-
+    const displayName = user?.displayName || user?.email?.split('@')[0] || "Guest";
     const avatar = user?.photoURL || "https://via.placeholder.com/40";
+
+    const startNavLoading = () => {
+
+        setNavLoading?.(true);
+    };
 
     return (
         <div className="navbar bg-base-100 shadow-sm">
-            {/* LEFT */}
             <div className="navbar-start">
-                <NavLink to="/" className="btn btn-ghost text-xl">
+                <NavLink to="/" className="btn btn-ghost text-xl" onClick={startNavLoading}>
                     GreenNest
                 </NavLink>
             </div>
 
-            {/* CENTER NAV LINKS */}
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
 
@@ -38,6 +37,7 @@ const Header = () => {
                     <li>
                         <NavLink
                             to="/"
+                            onClick={startNavLoading}
                             className={({ isActive }) =>
                                 isActive
                                     ? "bg-green-600 text-white px-4 py-2 rounded-md"
@@ -52,6 +52,7 @@ const Header = () => {
                     <li>
                         <NavLink
                             to="/plants"
+                            onClick={startNavLoading}
                             className={({ isActive }) =>
                                 isActive
                                     ? "bg-green-600 text-white px-4 py-2 rounded-md"
@@ -66,6 +67,7 @@ const Header = () => {
                     <li>
                         <NavLink
                             to="/myprofile"
+                            onClick={startNavLoading}
                             className={({ isActive }) =>
                                 isActive
                                     ? "bg-green-600 text-white px-4 py-2 rounded-md"
@@ -78,33 +80,14 @@ const Header = () => {
                 </ul>
             </div>
 
-            {/* RIGHT SIDE AUTH */}
             <div className="navbar-end">
                 {user ? (
                     <div className="flex items-center gap-3">
-                        <img
-                            src={avatar}
-                            alt={displayName}
-                            className="w-10 h-10 rounded-full object-cover"
-                        />
-
+                        <img src={avatar} alt={displayName} className="w-10 h-10 rounded-full object-cover" />
                         <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost">
-                                {displayName}
-                            </label>
-
-                            <ul
-                                tabIndex={0}
-                                className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52"
-                            >
-                                <li>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="text-red-600"
-                                    >
-                                        Logout
-                                    </button>
-                                </li>
+                            <label tabIndex={0} className="btn btn-ghost">{displayName}</label>
+                            <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52">
+                                <li><button onClick={handleLogout} className="text-red-600">Logout</button></li>
                             </ul>
                         </div>
                     </div>
@@ -112,6 +95,7 @@ const Header = () => {
                     <div className="flex gap-2">
                         <NavLink
                             to="/login"
+                            onClick={startNavLoading}
                             className={({ isActive }) =>
                                 isActive
                                     ? "bg-green-600 text-white px-4 py-2 rounded-md"
@@ -123,6 +107,7 @@ const Header = () => {
 
                         <NavLink
                             to="/signup"
+                            onClick={startNavLoading}
                             className={({ isActive }) =>
                                 isActive
                                     ? "bg-green-600 text-white px-4 py-2 rounded-md"
