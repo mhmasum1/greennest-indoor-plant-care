@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Cart from "../pages/Cart";
+import MyProfile from "../pages/MyProfile";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
             { path: "forgot-password", element: <ForgotPassword /> },
             { path: "reset-password", element: <ResetPassword /> },
             { path: "cart", element: <Cart />, },
+            { path: "/myprofile", element: <MyProfile /> },
 
         ],
     },

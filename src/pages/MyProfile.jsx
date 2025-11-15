@@ -1,49 +1,91 @@
 // src/pages/MyProfile.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function MyProfile() {
-    const { user, updateProfile } = useAuth();
-    const [form, setForm] = useState({ displayName: "", photoURL: "" });
+const MyProfile = () => {
+    const { user, updateUser } = useAuth() || {};
+    const [displayName, setDisplayName] = useState("");
+    const [photoURL, setPhotoURL] = useState("");
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        if (user) setForm({ displayName: user.displayName || "", photoURL: user.photoURL || "" });
+        setDisplayName(user?.displayName || "");
+        setPhotoURL(user?.photoURL || "");
     }, [user]);
 
-    const handle = async (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
+        if (!updateUser) {
+            toast.error("Auth not ready");
+            return;
+        }
+
+        setSaving(true);
         try {
-            setSaving(true);
-            await updateProfile({ displayName: form.displayName, photoURL: form.photoURL });
-            toast.success("Profile updated");
+            await updateUser({ displayName, photoURL }); // fbUpdateProfile ভিতরে কল হচ্ছে
+            toast.success("Profile updated!");
         } catch (err) {
-            toast.error(err.message || "Update failed");
+            console.error("Update profile error:", err);
+            toast.error(err?.message || "Could not update profile");
         } finally {
             setSaving(false);
         }
     };
 
-    if (!user) return <p className="p-6 text-center">Please login to view your profile.</p>;
+    if (!user) {
+        return (
+            <div className="max-w-md mx-auto mt-10 p-6 border rounded">
+                <Toaster />
+                <p className="text-center">You are not logged in.</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="max-w-md mx-auto p-6 border rounded mt-8">
+        <div className="max-w-md mx-auto mt-10 p-6 border rounded">
             <Toaster />
-            <h2 className="text-2xl font-semibold mb-4">My Profile</h2>
-            <div className="flex items-center gap-4 mb-4">
-                <img src={user.photoURL || "https://via.placeholder.com/80"} alt={user.displayName || "User"} className="w-20 h-20 rounded-full object-cover" />
-                <div>
-                    <p className="font-medium">{user.displayName || "No display name"}</p>
-                    <p className="text-sm text-gray-600">{user.email}</p>
-                </div>
+            <h2 className="text-2xl font-bold mb-4 text-center">My Profile</h2>
+
+            {/* User Info display */}
+            <div className="flex flex-col items-center mb-4">
+                <img
+                    src={user.photoURL || "https://i.ibb.co/Yj8zLqP/user.png"}
+                    alt="User avatar"
+                    className="w-24 h-24 rounded-full mb-2 object-cover"
+                />
+                <h3 className="text-lg font-semibold">
+                    {user.displayName || "No name set"}
+                </h3>
+                <p className="text-gray-600 text-sm">{user.email}</p>
             </div>
 
-            <form onSubmit={handle} className="space-y-3">
-                <input value={form.displayName} onChange={(e) => setForm({ ...form, displayName: e.target.value })} className="input input-bordered w-full" placeholder="Display name" />
-                <input value={form.photoURL} onChange={(e) => setForm({ ...form, photoURL: e.target.value })} className="input input-bordered w-full" placeholder="Photo URL" />
-                <button disabled={saving} className="btn btn-primary w-full">{saving ? "Saving..." : "Update Profile"}</button>
+            {/* Update form */}
+            <form onSubmit={handleUpdate} className="space-y-3">
+                <input
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    placeholder="Display name"
+                    className="input input-bordered w-full"
+                />
+                <input
+                    type="text"
+                    value={photoURL}
+                    onChange={(e) => setPhotoURL(e.target.value)}
+                    placeholder="Photo URL"
+                    className="input input-bordered w-full"
+                />
+                <button
+                    type="submit"
+                    className="btn btn-success w-full"
+                    disabled={saving}
+                >
+                    {saving ? "Updating…" : "Update Profile"}
+                </button>
             </form>
         </div>
     );
-}
+};
+
+export default MyProfile;

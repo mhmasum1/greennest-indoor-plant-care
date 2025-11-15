@@ -6,7 +6,6 @@ import toast, { Toaster } from "react-hot-toast";
 const friendlyError = (err) => {
     if (!err) return "Login failed";
     const code = err.code || "";
-    // common firebase auth error codes
     if (code.includes("invalid-email")) return "Invalid email address.";
     if (code.includes("user-not-found")) return "No account found with this email.";
     if (code.includes("wrong-password")) return "Incorrect password.";
@@ -17,6 +16,7 @@ const friendlyError = (err) => {
 const Login = () => {
     const [error, setError] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [showPass, setShowPass] = useState(false);
 
     const { login, googleLogin, loading: authLoading } = useAuth() || {};
     const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
         if (!login) {
             toast.error("Authentication not ready — please try again shortly.");
             return;
@@ -40,7 +41,6 @@ const Login = () => {
             toast.success("Login successful!");
             navigate(from, { replace: true });
         } catch (err) {
-            console.error("Login error:", err);
             const message = friendlyError(err);
             setError(message);
             toast.error(message);
@@ -60,9 +60,7 @@ const Login = () => {
             toast.success("Logged in with Google!");
             navigate(from, { replace: true });
         } catch (err) {
-            console.error("Google login error:", err);
-            const message = friendlyError(err);
-            toast.error(message);
+            toast.error(friendlyError(err));
         } finally {
             setSubmitting(false);
         }
@@ -76,6 +74,7 @@ const Login = () => {
             <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
 
             <form onSubmit={handleLogin} aria-busy={isBusy}>
+                {/* Email */}
                 <input
                     name="email"
                     type="email"
@@ -85,23 +84,35 @@ const Login = () => {
                     aria-label="Email"
                     disabled={isBusy}
                 />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    className="input input-bordered w-full mb-3"
-                    required
-                    aria-label="Password"
-                    disabled={isBusy}
-                />
 
-                {error && <p className="text-red-500 mb-2" role="alert">{error}</p>}
+                {/* Password with Show/Hide */}
+                <div className="relative">
+                    <input
+                        name="password"
+                        type={showPass ? "text" : "password"}
+                        placeholder="Password"
+                        className="input input-bordered w-full mb-3 pr-16"
+                        required
+                        aria-label="Password"
+                        disabled={isBusy}
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => setShowPass(!showPass)}
+                        className="absolute right-3 top-2 text-sm text-blue-600 hover:underline"
+                        disabled={isBusy}
+                    >
+                        {showPass ? "Hide" : "Show"}
+                    </button>
+                </div>
+
+                {error && <p className="text-red-500 mb-2">{error}</p>}
 
                 <button
                     type="submit"
                     className="btn btn-success w-full mb-3"
                     disabled={isBusy}
-                    aria-disabled={isBusy}
                 >
                     {isBusy ? "Signing in…" : "Login"}
                 </button>
@@ -111,7 +122,6 @@ const Login = () => {
                 onClick={handleGoogle}
                 className="btn btn-outline w-full"
                 disabled={isBusy}
-                aria-disabled={isBusy}
             >
                 {isBusy ? "Please wait…" : "Continue with Google"}
             </button>
