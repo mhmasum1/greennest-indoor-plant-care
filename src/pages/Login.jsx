@@ -74,7 +74,7 @@ const Login = () => {
             <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
 
             <form onSubmit={handleLogin} aria-busy={isBusy}>
-                {/* Email */}
+
                 <input
                     name="email"
                     type="email"
@@ -84,8 +84,6 @@ const Login = () => {
                     aria-label="Email"
                     disabled={isBusy}
                 />
-
-                {/* Password with Show/Hide */}
                 <div className="relative">
                     <input
                         name="password"

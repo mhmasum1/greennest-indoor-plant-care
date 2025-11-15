@@ -1,4 +1,3 @@
-// src/components/PlantOfTheWeek.jsx
 import React from "react";
 
 const plant = {

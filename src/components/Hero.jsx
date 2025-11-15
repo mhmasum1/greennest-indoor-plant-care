@@ -40,25 +40,22 @@ const Hero = () => {
             {slides.map((s) => (
                 <SwiperSlide key={s.id}>
                     <div className="w-full h-full relative overflow-hidden"> {/* Changed height to h-full */}
-                        {/* Image Section */}
+
                         <img
                             src={s.img}
                             alt={s.title}
-                            // object-cover ensures the image fills the container, cropping if aspect ratios differ.
-                            // object-center tries to keep the center of the image visible.
                             className="absolute inset-0 w-full h-full object-cover object-center"
                         />
 
-                        {/* Overlay Section */}
-                        <div className="absolute inset-0 bg-black/50"></div> {/* Slightly darker overlay for better text contrast */}
+                        <div className="absolute inset-0 bg-black/50"></div>
 
-                        {/* Text Content */}
+
                         <div className="relative z-10 flex items-center justify-center h-full px-4">
                             <div className="text-center max-w-3xl">
-                                <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-3 drop-shadow-lg"> {/* Added drop-shadow-lg for better visibility */}
+                                <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-3 drop-shadow-lg">
                                     {s.title}
                                 </h1>
-                                <p className="text-sm md:text-lg text-white drop-shadow-md"> {/* Changed to full white and added drop-shadow-md */}
+                                <p className="text-sm md:text-lg text-white drop-shadow-md">
                                     {s.subtitle}
                                 </p>
                             </div>

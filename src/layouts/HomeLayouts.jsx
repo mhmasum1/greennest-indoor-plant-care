@@ -14,8 +14,6 @@ const HomeLayouts = () => {
     return (
         <>
             <Header setNavLoading={setNavLoading} />
-
-            {/* Global top spinner */}
             {navLoading && (
                 <div className="fixed top-16 inset-x-0 flex justify-center z-50">
                     <span className="loading loading-spinner loading-md bg-white rounded-full p-2 shadow" />

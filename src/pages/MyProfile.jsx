@@ -1,4 +1,3 @@
-// src/pages/MyProfile.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
@@ -23,7 +22,7 @@ const MyProfile = () => {
 
         setSaving(true);
         try {
-            await updateUser({ displayName, photoURL }); // fbUpdateProfile ভিতরে কল হচ্ছে
+            await updateUser({ displayName, photoURL });
             toast.success("Profile updated!");
         } catch (err) {
             console.error("Update profile error:", err);
@@ -46,8 +45,6 @@ const MyProfile = () => {
         <div className="max-w-md mx-auto mt-10 p-6 border rounded">
             <Toaster />
             <h2 className="text-2xl font-bold mb-4 text-center">My Profile</h2>
-
-            {/* User Info display */}
             <div className="flex flex-col items-center mb-4">
                 <img
                     src={user.photoURL || "https://i.ibb.co/Yj8zLqP/user.png"}
@@ -59,8 +56,6 @@ const MyProfile = () => {
                 </h3>
                 <p className="text-gray-600 text-sm">{user.email}</p>
             </div>
-
-            {/* Update form */}
             <form onSubmit={handleUpdate} className="space-y-3">
                 <input
                     type="text"

@@ -27,7 +27,6 @@ const TopRatedPlants = () => {
                         key={plant.plantId}
                         className="border rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 bg-white p-4"
                     >
-                        {/* Image Container - Fixed Height with Object Cover */}
                         <div className="w-full h-56 overflow-hidden bg-gray-100 rounded-xl">
                             <img
                                 src={plant.image}
@@ -35,8 +34,6 @@ const TopRatedPlants = () => {
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                             />
                         </div>
-
-                        {/* Content Section */}
                         <div className="pt-4 text-center">
                             <h3 className="font-semibold text-lg text-gray-800 mb-2">
                                 {plant.plantName}

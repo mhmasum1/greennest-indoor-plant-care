@@ -1,4 +1,3 @@
-// src/providers/AuthProvider.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
 import {
@@ -52,20 +51,15 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     };
-
-    // login (email/password)
     const login = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password).finally(() => setLoading(false));
     };
-
-    // google login
     const googleLogin = async () => {
         setLoading(true);
         try {
             const res = await signInWithPopup(auth, googleProvider);
             try {
-                // ensure local user has fresh info
                 await res.user.reload?.();
             } catch (error) {
                 console.log(error)
@@ -77,7 +71,6 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // logout
     const logout = () => {
         setLoading(true);
         return signOut(auth).finally(() => {
@@ -86,15 +79,12 @@ const AuthProvider = ({ children }) => {
         });
     };
 
-    // update profile
     const updateUser = (profile) => {
         if (!auth.currentUser) return Promise.reject(new Error("No user"));
         setLoading(true);
         return fbUpdateProfile(auth.currentUser, profile).finally(() => setLoading(false));
     };
 
-    // reset password: optionally accept actionCodeSettings
-    // actionCodeSettings example: { url: window.location.origin + '/reset-password', handleCodeInApp: true }
     const resetPassword = (email, actionCodeSettings = null) => {
         setLoading(true);
         const call = actionCodeSettings
@@ -103,13 +93,10 @@ const AuthProvider = ({ children }) => {
         return call.finally(() => setLoading(false));
     };
 
-    // verify the oobCode (returns email if valid)
     const verifyResetCode = (oobCode) => {
         setLoading(true);
         return verifyPasswordResetCode(auth, oobCode).finally(() => setLoading(false));
     };
-
-    // confirm new password with oobCode
     const confirmReset = (oobCode, newPassword) => {
         setLoading(true);
         return confirmPasswordReset(auth, oobCode, newPassword).finally(() => setLoading(false));

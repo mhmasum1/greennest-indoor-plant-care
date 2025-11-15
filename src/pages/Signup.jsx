@@ -59,7 +59,7 @@ export default function Signup() {
         try {
             await googleLogin();
             toast.success("Logged in with Google");
-            navigate("/", { replace: true }); // Don't miss this: go to Home
+            navigate("/", { replace: true });
         } catch (err) {
             console.error("Google login error:", err);
             toast.error(err?.code || err?.message || "Google login failed");
@@ -125,8 +125,6 @@ export default function Signup() {
                     Register
                 </button>
             </form>
-
-            {/* Google Social Login */}
             <div className="mt-4">
                 <button
                     type="button"
@@ -136,8 +134,6 @@ export default function Signup() {
                     Continue with Google
                 </button>
             </div>
-
-            {/* Login Link */}
             <p className="mt-4 text-center text-sm">
                 Already have an account?{" "}
                 <Link to="/login" className="text-blue-600 hover:underline">
