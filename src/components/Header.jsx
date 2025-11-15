@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../providers/AuthProvider'; // <- single source
+import { useAuth } from '../providers/AuthProvider';
 
 const Header = () => {
     const { user, logout } = useAuth() || {};
     const [plants, setPlants] = useState([]);
     const navigate = useNavigate();
 
-    // Fetch plants data
     useEffect(() => {
         fetch('/plants.json')
             .then((res) => res.json())
@@ -22,10 +21,7 @@ const Header = () => {
     const displayName = user?.displayName || user?.email?.split('@')[0] || "Guest";
     const avatar = user?.photoURL || "https://via.placeholder.com/40";
 
-    // Navigate to Cart page
-    const handleGoToCart = () => {
-        navigate('/cart');
-    };
+    const handleGoToCart = () => navigate('/cart');
 
     return (
         <div className="navbar bg-base-100 shadow-sm">
@@ -35,13 +31,48 @@ const Header = () => {
 
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><NavLink to='/'>Home</NavLink></li>
+
+                    {/* HOME */}
                     <li>
-                        <button onClick={handleGoToCart}>
-                            Plants
-                        </button>
+                        <NavLink
+                            to="/"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-green-600 text-white px-4 py-2 rounded-md"
+                                    : "px-4 py-2 hover:bg-green-100 rounded-md"
+                            }
+                        >
+                            Home
+                        </NavLink>
                     </li>
-                    <li><NavLink to='/myprofile'>My Profile</NavLink></li>
+
+                    {/* PLANTS */}
+                    <li>
+                        <NavLink
+                            to="/cart"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-green-600 text-white px-4 py-2 rounded-md"
+                                    : "px-4 py-2 hover:bg-green-100 rounded-md"
+                            }
+                        >
+                            Plants
+                        </NavLink>
+                    </li>
+
+                    {/* PROFILE */}
+                    <li>
+                        <NavLink
+                            to="/myprofile"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-green-600 text-white px-4 py-2 rounded-md"
+                                    : "px-4 py-2 hover:bg-green-100 rounded-md"
+                            }
+                        >
+                            My Profile
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
 
@@ -58,8 +89,27 @@ const Header = () => {
                     </div>
                 ) : (
                     <div className="flex gap-2">
-                        <NavLink to="/login" className="btn btn-ghost">Login</NavLink>
-                        <NavLink to="/signup" className="btn btn-primary">Register</NavLink>
+                        <NavLink
+                            to="/login"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-green-600 text-white px-4 py-2 rounded-md"
+                                    : "btn btn-ghost"
+                            }
+                        >
+                            Login
+                        </NavLink>
+
+                        <NavLink
+                            to="/signup"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-green-600 text-white px-4 py-2 rounded-md"
+                                    : "btn btn-primary"
+                            }
+                        >
+                            Register
+                        </NavLink>
                     </div>
                 )}
             </div>
